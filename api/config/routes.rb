@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         namespace :relationships do
           resources :favorites
           resources :favorite_projects, only: [:index]
+          resources :bookmarks, except: [:show, :new]
         end
       end
 

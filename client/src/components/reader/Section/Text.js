@@ -15,6 +15,7 @@ export default class Text extends Component {
     appearance: PropTypes.object,
     location: PropTypes.object,
     createAnnotation: PropTypes.func,
+    createBookmark: PropTypes.func,
     authentication: PropTypes.object,
     params: PropTypes.object,
     children: PropTypes.object,
@@ -137,6 +138,7 @@ export default class Text extends Component {
             projectId={this.props.text.relationships.project.id}
             sectionId={this.props.params.sectionId}
             createAnnotation={this.props.createAnnotation}
+            createBookmark={this.props.createBookmark}
             lockSelection={this.lockSelection}
           >
             <div className={containerClass}>

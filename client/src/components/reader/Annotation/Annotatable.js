@@ -9,13 +9,14 @@ class Annotatable extends Component {
   static propTypes = {
     children: React.PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     createAnnotation: React.PropTypes.func,
+    createBookmark: React.PropTypes.func,
     currentUser: React.PropTypes.object,
     lockSelection: React.PropTypes.func,
     selectionLockedAnnotation: React.PropTypes.object,
     selectionLocked: React.PropTypes.bool,
     sectionId: React.PropTypes.string,
     projectId: React.PropTypes.string
-  }
+  };
 
   constructor() {
     super();
@@ -25,11 +26,13 @@ class Annotatable extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.highlightSelection = this.highlightSelection.bind(this);
     this.annotateSelection = this.annotateSelection.bind(this);
+    this.bookmarkSelection = this.bookmarkSelection.bind(this);
     this.startResourceSelection = this.startResourceSelection.bind(this);
     this.endResourceSelection = this.endResourceSelection.bind(this);
     this.attachResourceToSelection = this.attachResourceToSelection.bind(this);
     this.shareSelection = this.shareSelection.bind(this);
     this.closestTextNode = this.closestTextNode.bind(this);
+    this.handleReaderExit = this.handleReaderExit.bind(this);
 
     this.state = this.defaultState();
   }
@@ -44,6 +47,7 @@ class Annotatable extends Component {
     document.removeEventListener('mousedown', this.startSelection, false);
     document.removeEventListener('mouseup', this.updateSelection, false);
     document.removeEventListener('keydown', this.handleKeyDown, false);
+    this.handleReaderExit();
   }
 
   defaultState() {
@@ -55,6 +59,12 @@ class Annotatable extends Component {
       selectionClickEvent: null
     };
   }
+
+  handleReaderExit() {
+    if (!this.props.currentUser) return null;
+    const bookmark = this.mapStateToBookmark(null, true);
+    this.createBookmark(bookmark);
+  };
 
   // This method handles shift + arrow selection modification
   handleKeyDown(event) {
@@ -157,6 +167,28 @@ class Annotatable extends Component {
     return annotation;
   }
 
+  // For user bookmarks all we need for a bookmark is the start node and its contents,
+  // if it's automatically created, we just need the section
+  mapStateToBookmark(selection, automatic = false) {
+    let bookmark = null;
+    if (automatic) {
+      bookmark = {
+        textSectionId: this.props.sectionId,
+        automatic: automatic
+      };
+    } else {
+      const range = selection.range;
+      const startNode = this.closestTextNode(range.startContainer);
+      bookmark = {
+        nodeUuid: startNode.dataset.nodeUuid,
+        nodeContents: startNode.textContent,
+        textSectionId: this.props.sectionId,
+        automatic: automatic
+      };
+    }
+    return bookmark;
+  }
+
   // Find the closest element tagged as a text node.
   closestTextNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
@@ -237,6 +269,16 @@ class Annotatable extends Component {
     this.createAnnotation(annotation);
   }
 
+  createBookmark(bookmark) {
+    this.props.createBookmark(bookmark);
+  }
+
+  bookmarkSelection(event) {
+    event.stopPropagation();
+    const bookmark = this.mapStateToBookmark(this.state.selection);
+    this.createBookmark(bookmark);
+  }
+
   highlightSelection(event) {
     event.stopPropagation();
     const annotation = this.mapStateToAnnotation(this.state.selection, 'highlight');
@@ -310,6 +352,7 @@ class Annotatable extends Component {
             highlight={this.highlightSelection}
             annotate={this.annotateSelection}
             attachResource={this.startResourceSelection}
+            bookmark={this.bookmarkSelection}
             selection={this.state.selection}
             selectionClickEvent={this.state.selectionClickEvent}
             selectionLocked={this.state.selectionLocked}

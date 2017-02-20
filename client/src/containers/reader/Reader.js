@@ -11,6 +11,7 @@ import textsAPI from '../../api/texts';
 import resourcesAPI from '../../api/resources';
 import sectionsAPI from '../../api/sections';
 import annotationsAPI from '../../api/annotations';
+import bookmarksAPI from '../../api/bookmarks';
 import { select } from '../../utils/entityUtils';
 import values from 'lodash/values';
 import uniq from 'lodash/uniq';
@@ -171,6 +172,15 @@ class ReaderContainer extends Component {
           return request(
             annotationsAPI.create(sectionId, annotation, resource),
             requests.createAnnotation
+          );
+        },
+        dispatch
+      ),
+      createBookmark: b(
+        (bookmark) => {
+          return request(
+            bookmarksAPI.create(bookmark),
+            'create-bookmark'
           );
         },
         dispatch

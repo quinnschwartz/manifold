@@ -18,6 +18,7 @@ class User < ApplicationRecord
   # Associations
   has_many :annotations # TODO: refactor to use "creator_id"
   has_many :favorites # Todo: refactor to use "creator_id"
+  has_many :bookmarks
   has_many :favorite_projects, through: :favorites, source: :favoritable,
                                source_type: "Project"
   has_many :favorite_texts, through: :favorites, source: :favoritable,

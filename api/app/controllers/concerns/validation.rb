@@ -48,6 +48,13 @@ module Validation
     params.permit(param_config)
   end
 
+  def bookmark_params
+    params.require(:data)
+    attributes = [:node_uuid, :node_contents, :text_section_id, :automatic]
+    param_config = structure_params(attributes: attributes)
+    params.permit(param_config)
+  end
+
   def category_params
     params.require(:data)
     attributes = [:title, :role, :position]

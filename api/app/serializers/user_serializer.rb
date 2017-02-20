@@ -8,4 +8,5 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :favorites, serializer: FavoriteSerializer
   has_many :makers, if: :can_update_object?
+  has_many :bookmarks
 end
