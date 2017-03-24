@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 
 export default class Toc extends Component {
 
@@ -32,6 +33,12 @@ export default class Toc extends Component {
       }
     });
     return hasChildren;
+  }
+
+  handleAboutClick(event) {
+    event.preventDefault();
+    const url = `${window.location.pathname}/about`;
+    browserHistory.push(url);
   }
 
   visitNode(node) {
@@ -70,7 +77,7 @@ export default class Toc extends Component {
           {this.props.text.attributes.toc.map(this.visitNode)}
         </ul>
         <div className="toc-footer">
-          <a href="#">
+          <a href="#" onClick={(event) => this.handleAboutClick(event)}>
             <h4>
               <i className="manicon manicon-question-round"></i>
               About This Text

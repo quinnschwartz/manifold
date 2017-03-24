@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class ProjectPlaceholder extends Component {
 
   static displayName = "Project.Placeholder";
 
-  // static propTypes = {};
+  static propTypes = {
+    width: PropTypes.string,
+    height: PropTypes.string
+  };
   // NB: project-thumb-placeholder can take 1 of 5 modifier classes (Primary through Quinary)
   // For background colors, or none for white.
 
   render() {
+    const width = this.props.width ? this.props.width : "200.34735px";
+    const height = this.props.height ? this.props.height : "200.68436px";
     return (
       <svg version="1.1" className="project-thumb-placeholder quaternary"
-        x="0px" y="0px" width="200.34735px" height="200.68436px"
+        x="0px" y="0px" width={width} height={height}
         viewBox="0 0 200.34735 200.68436"
       >
         {/* Disable max-length on linter for long SVG path declarations */}

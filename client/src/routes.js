@@ -17,6 +17,7 @@ export default () => {
 
       <Route component={Reader.Reader} path="read/:textId">
         <Route component={ReaderComponents.Section.Text} path="section/:sectionId">
+          <Route component={Reader.About.Detail} path="about"/>
           <Route component={Reader.Resource.Detail} path="resource/:resourceId"/>
         </Route>
       </Route>

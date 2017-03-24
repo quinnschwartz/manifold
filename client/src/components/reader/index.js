@@ -1,4 +1,5 @@
 export Section from './Section';
+export About from './About';
 export Annotation from './Annotation';
 export Resource from './Resource';
 export AppearanceMenuBody from './AppearanceMenuBody';
