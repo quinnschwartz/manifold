@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Resource } from 'components/frontend';
 import filesize from 'filesize';
 import FormattedDate from 'components/global/FormattedDate';
 
@@ -22,28 +22,6 @@ export default class ResourceMeta extends Component {
 
   constructor(props) {
     super();
-  }
-
-  mapTagsToLinks(attr) {
-    if (!attr.tagList || !this.props.projectUrl) return null;
-    const tags = attr.tagList;
-    const out = [];
-    tags.map((tag, index) => {
-      out.push(this.createTagLink(tag, index));
-    });
-    return out;
-  }
-
-  createTagLink(tag, index) {
-    if (!tag) return null;
-    return (
-      <li key={index}>
-        {/* Will be route to view resources by tags */}
-        <Link to={`${this.props.projectUrl}?tag=${tag.toLowerCase()}`}>
-          {tag}
-        </Link>
-      </li>
-    );
   }
 
   render() {
@@ -121,11 +99,8 @@ export default class ResourceMeta extends Component {
         </ul>
 
         {this.props.showTags ?
-          <nav className="tag-list">
-            <ul>
-              {this.mapTagsToLinks(attr)}
-            </ul>
-          </nav> : null
+          <Resource.TagList resource={this.props.resource} />
+          : null
         }
       </section>
     );

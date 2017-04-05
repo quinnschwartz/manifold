@@ -24,7 +24,6 @@ export default class ResourceCard extends Component {
     this.handleInfoMouseOver = this.handleInfoMouseOver.bind(this);
     this.handleInfoMouseOut = this.handleInfoMouseOut.bind(this);
     this.handleInfoClick = this.handleInfoClick.bind(this);
-    this.handleTagHover = this.handleTagHover.bind(this);
   }
 
   getResourceType(type) {
@@ -106,24 +105,6 @@ export default class ResourceCard extends Component {
     browserHistory.push(this.detailUrl());
   }
 
-  handleTagHover(event) {
-    event.stopPropagation();
-    this.setState({
-      infoHover: false
-    });
-  }
-
-  handleTagClick(event) {
-    // Placeholder method, ultimately this will link
-    // to the tag detail
-
-    // Event handler, has access to react synthetic click event
-    // Will need to be bound to the component in the constructor to use any component
-    // state or props
-    event.stopPropagation();
-    browserHistory.push('/sample');
-  }
-
   resource() {
     if (this.props.resource.type === "collectionResources") {
       return this.props.resource.relationships.resource;
@@ -171,55 +152,15 @@ export default class ResourceCard extends Component {
     return out;
   }
 
-  renderTags(resource) {
-    if (!resource.attributes.tags) {
-      return false;
-    }
-
-    function commaSeparate(index) {
-      if (index >= resource.attributes.tags.length - 1) return false;
-      return (
-          <span>
-          {', '}
-        </span>
-      );
-    }
-
-    return (
-      <nav className="resource-tags">
-        <ul>
-          {resource.attributes.tags.map((tag, index) => {
-            return (
-                <div
-                  key={index}
-                  className="tag-link"
-                  onMouseOver={this.handleTagHover}
-                  onClick={this.handleTagClick}
-                >
-                  {tag}{commaSeparate(index)}
-                </div>
-            );
-          })}
-        </ul>
-      </nav>
-    );
-  }
-
   render() {
     const resource = this.resource();
     if (!resource) return null;
     const attr = resource.attributes;
 
-    const linkClass = classNames({
-      thumbnail: true,
-      'bg-image': attr.attachmentStyles.smallPortrait
-    });
-
     const infoClass = classNames({
       'resource-info': true,
       hover: this.state.infoHover
     });
-
 
     return (
       <li className="resource-card">
@@ -259,8 +200,10 @@ export default class ResourceCard extends Component {
               <i className="manicon manicon-arrow-right"></i>
             </div>
           </div>
-
-          {this.renderTags(resource)}
+          <Resource.TagList
+            resource={resource}
+            disabledLinks
+          />
         </section>
       </li>
     );
