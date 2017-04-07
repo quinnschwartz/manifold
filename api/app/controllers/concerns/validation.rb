@@ -178,6 +178,10 @@ module Validation
     params.permit(filter: [:keyword, :typeahead])[:filter]
   end
 
+  def event_filter_params
+    params.permit(filter: [:keyword])[:filter]
+  end
+
   def annotation_filter_params
     # Client tends to pass indexes in the array of values, which makes rails reader it
     # as a hash. We're coercing the hash to an array here, before it hits strong params.

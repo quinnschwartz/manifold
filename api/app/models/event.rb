@@ -18,6 +18,7 @@ class Event < ApplicationRecord
 
   # Authority
   include Authority::Abilities
+  include Filterable
 
   # Associations
   belongs_to :subject, polymorphic: true

@@ -20,7 +20,8 @@ export default class ListSearchable extends PureComponent {
     newButtonText: PropTypes.string,
     newButtonVisible: PropTypes.bool,
     newButtonPath: PropTypes.string,
-    filterOptions: PropTypes.object
+    filterOptions: PropTypes.object,
+    destroyHandler: PropTypes.func
   };
 
   static defaultProps = {
@@ -116,6 +117,9 @@ export default class ListSearchable extends PureComponent {
     const props = Object.assign({}, this.props.entityComponentProps);
     props.key = entity.id;
     props.entity = entity;
+    if (this.props.destroyHandler) {
+      props.destroyHandler = this.props.destroyHandler;
+    }
     return React.createElement(this.props.entityComponent, props);
   }
 

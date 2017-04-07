@@ -16,6 +16,19 @@
     }
   }
 
+  // When list includes more than just header (i.e., content, utility)
+  &.tabular {
+    header {
+      @include respond($break40) {
+        min-width: 40%;
+      }
+
+      @include respond($break90) {
+        min-width: 23%;
+      }
+    }
+  }
+
   .list-total {
     @include utilityPrimary;
     padding-bottom: 15px;
@@ -74,7 +87,8 @@
       }
     }
 
-    a {
+    // Use .list-item on li if the items don't link
+    a, .list-item {
       display: flex;
       justify-content: space-between;
       width: 100%;
@@ -215,6 +229,28 @@
       }
     }
 
+    .content {
+      display: none;
+
+      @include respond($break60) {
+        display: flex;
+        flex-grow: 1;
+        padding-right: 25px;
+      }
+    }
+
+    .utility {
+      padding-right: 15px;
+
+      .manicon-trashcan {
+        color: $sp40Tertiary;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
     // Optional items
     .checkbox-primary {
       margin-right: 18px;
@@ -228,6 +264,10 @@
       .manicon-check {
         font-size: 8px;
       }
+    }
+
+    .list-item {
+      cursor: default;
     }
   }
 }
