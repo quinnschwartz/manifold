@@ -5,6 +5,7 @@ import Hero from './Hero.js';
 import Thumbnail from './Thumbnail.js';
 import Follow from './Follow.js';
 import Resources from './Resources.js';
+import Cover from './Cover.js';
 
 export default {
   Detail,
@@ -13,5 +14,6 @@ export default {
   Hero,
   Thumbnail,
   Follow,
-  Resources
+  Resources,
+  Cover
 };

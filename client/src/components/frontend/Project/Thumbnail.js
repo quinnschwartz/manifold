@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Project as FrontEndProject } from 'components/frontend';
-import { Project as GlobalProject } from 'components/global';
 import FormattedDate from 'components/global/FormattedDate';
 import classNames from 'classnames';
+// import { Project as GlobalProject } from 'components/global';
+
 
 export default class ProjectThumbnail extends Component {
 
@@ -104,26 +105,23 @@ export default class ProjectThumbnail extends Component {
       );
     }
 
-    let cover;
     let className;
     if (project.attributes.avatarStyles.small) {
       className = "figure-wrapper";
-      cover = (
-        <img src={project.attributes.avatarStyles.small}
-          alt={`Click to view ${project.attributes.title}`}
-        />
-      );
     } else {
       className = "figure-wrapper figure-wrapper-placeholder";
-      cover = <GlobalProject.Placeholder />;
     }
 
     return (
       <Link to={`/browse/project/${project.id}`}>
         {/* Figure wrapper, controls maximum width of figure */}
-        <div className={className} >
+        <div className={className}>
           <figure>
-            {cover}
+            <FrontEndProject.Cover
+              project={project}
+              // small={this.project.attributes.avatarStyles.small}
+              // title={this.project.attributes.title}
+            />
             <FrontEndProject.Follow
               project={project}
               authenticated={this.props.authenticated}
@@ -137,3 +135,5 @@ export default class ProjectThumbnail extends Component {
     );
   }
 }
+
+
